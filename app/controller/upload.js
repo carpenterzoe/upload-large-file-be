@@ -12,7 +12,7 @@ class UploadController extends Controller {
   async upload_already() {
     const { ctx } = this;
     const { HASH } = ctx.query  // url查询参数
-    const chunksDir = path.resolve(__dirname, '../uploadedFiles/' + HASH);
+    const chunksDir = path.resolve(__dirname, '../public/upload/' + HASH);
     if (!fs.existsSync(chunksDir)) {
       ctx.body = {
         code: 200,
@@ -32,6 +32,32 @@ class UploadController extends Controller {
 
   async upload_chunk() {
     const { ctx } = this;
+
+    let file = ctx.request.files[0]
+    console.log('file: ', file);
+    // let params = ctx //TODO:上传，并且把hash传过来
+
+    const chunksDir =  path.resolve(__dirname, '../public/upload/' + HASH);
+
+    if (!fs.existsSync(chunksDir)) {
+      await fs.mkdir(chunksDir)
+      fs.writeFile(chunksDir,file, (err) => {
+        if (err) {
+          ctx.body = {
+            code: 500,
+            msg: '上传失败',
+            data: null
+
+          }
+          return
+        }
+        ctx.body = {
+          code: 200,
+          msg: '上传成功',
+          data: null
+        }
+      })
+    }
   }
 
   async upload_merge() {

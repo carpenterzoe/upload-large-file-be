@@ -11,13 +11,19 @@ module.exports = appInfo => {
   const config = exports = {};
 
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1703935271759_4034';
+  config.keys = '123';
 
   // add your middleware config here
   config.middleware = [];
 
   config.multipart = {
     mode: 'file'
+  }
+
+  config.cors = {
+    origin: '*', // 允许所有跨域访问
+    credentials: true, // 允许 Cookie 跨域
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   }
 
   // add your user config here
